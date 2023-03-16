@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, SubmitField
+from wtforms import StringField, PasswordField, EmailField, SubmitField, FloatField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from website.models import User
 
@@ -36,3 +36,16 @@ class LoginForm(FlaskForm):
     username = StringField(label="Username: ", validators=[DataRequired()])
     password = PasswordField(label="Password: ", validators=[DataRequired()])
     submit = SubmitField(label="Sign in")
+
+
+class StockTickerForm(FlaskForm):
+    stock_ticker = StringField(label="Stock ticker: ", validators=[Length(min=2, max=5), DataRequired()])
+    submit = SubmitField(label="Get stock ticker")
+
+class PurchaseStockForm(FlaskForm):
+    shares = FloatField(label="Shares: ", validators=[DataRequired()])
+    submit = SubmitField(label="Purchase stock!")
+
+
+class SellStockForm(FlaskForm):
+    submit = SubmitField(label="Sell stock!")

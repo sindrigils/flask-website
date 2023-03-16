@@ -15,19 +15,24 @@ class User(db.Model, UserMixin):
         return self.password
 
     @password.setter
-    def password(self, text_password):
+    def password(self, text_password: str):
         self.password_hash = bcrypt.generate_password_hash(password=text_password).decode("utf-8")
     
-    def check_password_correction(self, attempted_password):
+    def check_password_correction(self, attempted_password: str) -> bool:
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"User {self.username}"
     
 
 
 class Stock(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    price = db.Column(db.Float(), nullable=False)
+    ticker = db.Column(db.String(length=5), nullable=False)
+    bought_price = db.Column(db.Float(), nullable=False)
+    shares = db.Column(db.Float(), nullable=False)
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+
+    def __repr__(self) -> str:
+        return f"Stock: {self.ticker} at {self.bought_price}$"
