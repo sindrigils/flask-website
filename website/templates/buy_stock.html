@@ -16,6 +16,8 @@
             
             {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
         </form>
+
+        <img src="{{ url_for('static', filename='graphs/' + filename) }}">
     </div>
 </body>
 {% endblock %}

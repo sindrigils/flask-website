@@ -3,10 +3,10 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<body>
+<body class="bg-light text-dark" style="margin:0px">
     
 
-    <div class="row" style="margin-top:20px; margin-left:20px">
+    <div class="row " style="margin-top:20px; margin-left:20px">
         <div class="col-8">
             <h2>Portfolio</h2>
             <br>
@@ -39,11 +39,12 @@
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <a class="btn btn-primary" href="{{ url_for('views.stock_ticker_page') }}" role="button">Buy</a>
+                <a class="btn btn-primary btn-lg" href="{{ url_for('views.stock_ticker_page') }}" role="button">Buy</a>
                 <a class="btn btn-primary" href="{{ url_for('views.sell_stock_page') }}" role="button">Sell</a>
             </div>
             
         </div>
 </div>
+
 </body>
 {% endblock %}
