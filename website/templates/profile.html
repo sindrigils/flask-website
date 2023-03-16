@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<body>
+    
+
+    <div class="row" style="margin-top:20px; margin-left:20px">
+        <div class="col-8">
+            <h2>Portfolio</h2>
+            <br>
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <!-- Your Columns HERE -->
+                    <th scope="col">Ticker</th>
+                    <th scope="col">Shares</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Your rows inside the table HERE: -->
+                {% for stock in stocks %}
+                <tr>
+                    <td>{{ stock.ticker }}</td>
+                    <td>{{ stock.shares }}</td>
+                    <td>{{ stock.bought_price }}$</td>
+                    <td>{{ stock.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <a class="btn btn-primary" href="{{ url_for('views.stock_ticker_page') }}" role="button">Buy more stocks!</a>
+            </div>
+            
+        </div>
+</div>
+</body>
+{% endblock %}

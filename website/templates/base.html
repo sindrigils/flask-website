@@ -25,7 +25,7 @@
                       <a class="nav-link" href="{{ url_for('auth.home_page') }}">Home <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" href="{{ url_for('auth.home_page') }}">Stocks</a>
+                      <a class="nav-link" href="{{ url_for('views.stock_ticker_page') }}">Stocks</a>
                   </li>
               </ul>
                 {% if current_user.is_authenticated %}
@@ -33,7 +33,11 @@
                         <li class="nav-item">
                             <a class="nav-link">Welcome, {{ current_user.username }}</a>
                         </li>
-                        
+
+                        <li class="navbar-nav">
+                            <a class="nav-link" href="{{ url_for('views.profile_page') }}">Profile</a>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('auth.logout_page') }}">Logout</a>
                         </li>

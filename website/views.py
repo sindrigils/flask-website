@@ -7,6 +7,10 @@ from website.stock.stock_models import get_stock_price_by_ticker
 
 views = Blueprint("views", __name__)
 
+@views.route("/")
+def home_page():
+    return render_template("home.html")
+
 @views.route("/stock_ticker", methods=["POST", "GET"])
 @login_required
 def stock_ticker_page():
@@ -43,3 +47,8 @@ def buy_stock_page(stock_ticker, stock_price):
 
 
 
+@views.route("/profile")
+@login_required
+def profile_page():
+    owned_stocks = Stock.query.filter_by(user_id=current_user.id)
+    return render_template("profile.html", stocks=owned_stocks)

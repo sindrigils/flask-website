@@ -7,12 +7,6 @@ from website import db
 
 auth = Blueprint("auth", __name__)
 
-@auth.route("/")
-@login_required
-def home_page():
-    return render_template("home.html")
-
-
 @auth.route("/login", methods=["POST", "GET"])
 def login_page():
 
@@ -34,6 +28,7 @@ def login_page():
 
 @auth.route("/register", methods=["POST", "GET"])
 def register_page():
+    
     form = RegisterForm()
     if form.validate_on_submit():
         user_to_create = User(
