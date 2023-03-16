@@ -7,14 +7,12 @@ class RegisterForm(FlaskForm):
 
     def validate_username(self, username_to_check):
         user = User.query.filter_by(username=username_to_check.data).first()
-        
         if user:
             raise ValidationError(message=f"Username already exists, please try a different username!")
     
 
     def validate_email_address(self, email_address_to_check):
         email = User.query.filter_by(email_address=email_address_to_check.data).first()
-
         if email:
             raise ValidationError(message=f"Email address already exists, please try a different email address!")
     
@@ -42,6 +40,7 @@ class StockTickerForm(FlaskForm):
     stock_ticker = StringField(label="Stock ticker: ", validators=[Length(min=2, max=5), DataRequired()])
     submit = SubmitField(label="Get stock ticker")
 
+
 class PurchaseStockForm(FlaskForm):
     shares = FloatField(label="Shares: ", validators=[DataRequired()])
     submit = SubmitField(label="Purchase stock!")
@@ -51,3 +50,8 @@ class SellStockForm(FlaskForm):
     stock_ticker = StringField(label="Stock ticker: ", validators=[DataRequired()])
     shares = FloatField(label="Shares: ", validators=[DataRequired()])
     submit = SubmitField(label="Sell stock!")
+
+
+
+class AccountForm(FlaskForm):
+    submit = SubmitField(label="Create Bank Account!")

@@ -1,8 +1,7 @@
-from website import app
-from flask import render_template, Blueprint, request, url_for, redirect, flash
-from flask_login import current_user, login_required, login_user, logout_user
+from flask import render_template, Blueprint, url_for, redirect, flash
+from flask_login import login_required, login_user, logout_user
 from website.forms import LoginForm, RegisterForm
-from website.models import User, Stock
+from website.models import User
 from website import db
 
 auth = Blueprint("auth", __name__)
@@ -46,8 +45,6 @@ def register_page():
     if form.errors != {}:
         for error_msg in form.errors.values():
             flash(message=f"There was an error with creating the user: {error_msg}", category="danger")
-
-        
 
     return render_template("register.html", form=form)
 

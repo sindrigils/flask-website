@@ -40,11 +40,43 @@
         <div class="row">
             <div class="col-6">
                 <a class="btn btn-primary btn-lg" href="{{ url_for('views.stock_ticker_page') }}" role="button">Buy</a>
-                <a class="btn btn-primary" href="{{ url_for('views.sell_stock_page') }}" role="button">Sell</a>
+                <a class="btn btn-primary btn-lg" href="{{ url_for('views.sell_stock_page') }}" role="button">Sell</a>
             </div>
-            
         </div>
-</div>
+    </div>
+
+    {% if account %}
+        <div class="container">
+            
+            <h2>Bank Account</h2>
+            <table class="table table-hover table-dark">
+                <thead>
+                    <tr>
+                        <!-- Your Columns HERE -->
+                        <th scope="col">Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Your rows inside the table HERE: -->
+                    <tr>
+                        <td>{{ account.prettier_balance }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+    {% else %}
+        <div class="container">
+            <form method="POST" style="color:white">
+                {{ form.hidden_tag() }}
+                <br>
+                <br>
+                <br>
+                {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+            </form>
+        </div>
+    {% endif %}
+    
 
 </body>
 {% endblock %}
