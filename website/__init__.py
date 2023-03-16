@@ -9,11 +9,21 @@ load_dotenv()
 secret_key = os.getenv("secret_key")
 # ts2 = TimeSeries(key=os.getenv("API_KEY"), output_format="pandas")
 
-app = Flask(__name__, template_folder="/Users/sindri/Desktop/stock-website/website/templates")
+app = Flask(__name__, template_folder="/Users/sindri/Desktop/flask-website/website/templates")
 app.config["SECRET_KEY"] = secret_key
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///market.db'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = "auth.login_page"
+login_manager.login_message_category = "info"
+
+
+from website.models import User
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 app.app_context().push()
 

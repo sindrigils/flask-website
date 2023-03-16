@@ -5,7 +5,7 @@ from website.models import User
 
 class RegisterForm(FlaskForm):
 
-    def validate_name(self, username_to_check):
+    def validate_username(self, username_to_check):
         user = User.query.filter_by(username=username_to_check.data).first()
         
         if user:
