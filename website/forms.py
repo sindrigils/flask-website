@@ -48,4 +48,6 @@ class PurchaseStockForm(FlaskForm):
 
 
 class SellStockForm(FlaskForm):
+    stock_ticker = StringField(label="Stock ticker: ", validators=[DataRequired()])
+    shares = FloatField(label="Shares: ", validators=[DataRequired()])
     submit = SubmitField(label="Sell stock!")

@@ -26,7 +26,7 @@
                 <tr>
                     <td>{{ stock.ticker }}</td>
                     <td>{{ stock.shares }}</td>
-                    <td>{{ stock.bought_price }}$</td>
+                    <td>{{ stock.average_price }}$</td>
                     <td>{{ stock.date }}</td>
                 </tr>
                 {% endfor %}
@@ -39,7 +39,8 @@
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <a class="btn btn-primary" href="{{ url_for('views.stock_ticker_page') }}" role="button">Buy more stocks!</a>
+                <a class="btn btn-primary" href="{{ url_for('views.stock_ticker_page') }}" role="button">Buy</a>
+                <a class="btn btn-primary" href="{{ url_for('views.sell_stock_page') }}" role="button">Sell</a>
             </div>
             
         </div>
