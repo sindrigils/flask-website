@@ -1,9 +1,15 @@
+import matplotlib
+matplotlib.use('agg')
+
+
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from dotenv import load_dotenv
 import os
+
+
 
 load_dotenv()
 secret_key = os.getenv("secret_key")
@@ -18,6 +24,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = "auth.login_page"
 login_manager.login_message_category = "info"
 
+os.makedirs(os.path.join(app.instance_path, 'static', 'graphs'), exist_ok=True)
 
 from website.models import User
 @login_manager.user_loader

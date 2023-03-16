@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from website import db
 from website.models import Stock
 from website.forms import StockTickerForm, PurchaseStockForm, SellStockForm
-from website.stock.stock_models import get_stock_price_by_ticker
+from website.stock.stock_models import get_stock_price_by_ticker, plot_a_graph
 
 views = Blueprint("views", __name__)
 
@@ -30,6 +30,7 @@ def stock_ticker_page():
 @login_required
 def buy_stock_page(stock_ticker, stock_price):
     form = PurchaseStockForm()
+    filename = plot_a_graph(stock_ticker)
 
     if form.validate_on_submit():
         buy_stock = Stock(
@@ -57,7 +58,7 @@ def buy_stock_page(stock_ticker, stock_price):
         flash(message=f"You have bought the stock successfully!", category="success")
         return redirect(url_for("views.stock_ticker_page"))
 
-    return render_template("buy_stock.html", form=form, stock_ticker=stock_ticker, stock_price=stock_price)
+    return render_template("buy_stock.html", form=form, stock_ticker=stock_ticker, stock_price=stock_price, filename=filename)
 
 
 
@@ -87,3 +88,4 @@ def sell_stock_page():
             return redirect(url_for("views.profile_page"))
     
     return render_template("sell_stock.html", form=form)
+
