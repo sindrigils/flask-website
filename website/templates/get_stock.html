@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %} Stock ticker {% endblock %}
+
+{% block content %}
+<body class="text-center">
+    <div class="container">
+        <form method="POST" style="color: white">
+            {{ form.hidden_tag() }}
+            <h1 class="h3 mb-3 font-weight-normal">Type a stock ticker</h1>
+
+            <br>
+            
+            {{ form.stock_ticker.label() }}
+            {{ form.stock_ticker(class="form-control", placeholder="Stock ticker")}}
+
+            <br>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+        </form>
+    </div>
+    
+
+    {% if stock_price %}
+
+        <center>
+            <h3>Ticker symbol: {{ stock_ticker }}</h3>
+            <h3>Price: {{ stock_price }}</h3>
+        </center>
+
+    <br>
+    
+    <h3>Would you like to buy this stock?</h3>
+    <a href="{{ url_for('views.buy_stock_page', stock_ticker=stock_ticker, stock_price=stock_price)}}">Yes</a>
+    
+    
+
+    {% endif %}
+</body>
+
+{% endblock %}
