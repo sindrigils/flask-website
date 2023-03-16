@@ -13,7 +13,6 @@ api_key = key=os.getenv("API_KEY")
 ts = TimeSeries(key=api_key, output_format="pandas")
 
 
-
 def get_stock_price_by_ticker(stock_ticker: str):
     """ Gets a ticker symbol as a parameter and returns its stock price """
 
@@ -26,8 +25,6 @@ def get_stock_price_by_ticker(stock_ticker: str):
 
 
 
-
-# Define the Alpha Vantage API endpoint and parameters
 def plot_a_graph(symbol):
     interval = "60min"
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={interval}&apikey={api_key}'
