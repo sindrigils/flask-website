@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Sell stock{% endblock %}
+
+{% block content %}
+<body class="text-center">
+    <div class="container">
+        <h2>Sell a stock</h2>
+        <form method="POST" style="color: white">
+            {{ form.hidden_tag() }}
+
+            {{ form.stock_ticker.label() }}
+            {{ form.stock_ticker(class="form-control", placeholder="Ticker")}}
+
+            {{ form.shares.label() }}
+            {{ form.shares(class="form-control", placeholder="Shares")}}
+
+            <br>
+            
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+            
+        </form>
+    </div>
+    
+</body>
+{% endblock %}

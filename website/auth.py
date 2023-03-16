@@ -18,7 +18,7 @@ def login_page():
             login_user(attempted_user)
             flash(message=f"You successfully logged in as: {attempted_user.username}", category="success")
 
-            return redirect(url_for("auth.home_page"))
+            return redirect(url_for("views.home_page"))
         
         else:
             flash(message="Username and password don't match! Please try again", category="danger")
@@ -28,7 +28,7 @@ def login_page():
 
 @auth.route("/register", methods=["POST", "GET"])
 def register_page():
-    
+
     form = RegisterForm()
     if form.validate_on_submit():
         user_to_create = User(
@@ -41,7 +41,7 @@ def register_page():
         db.session.commit()
         flash(message=f"Account created successfully, welcome {user_to_create.username}", category="success")
         login_user(user_to_create)
-        return redirect(url_for("auth.home_page"))
+        return redirect(url_for("views.home_page"))
     
     if form.errors != {}:
         for error_msg in form.errors.values():
