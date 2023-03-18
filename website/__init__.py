@@ -12,7 +12,6 @@ import os
 
 load_dotenv()
 secret_key = os.getenv("secret_key")
-# ts2 = TimeSeries(key=os.getenv("API_KEY"), output_format="pandas")
 
 app = Flask(__name__, template_folder="/Users/sindri/Desktop/flask-website/website/templates")
 app.config["SECRET_KEY"] = secret_key
