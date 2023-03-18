@@ -4,6 +4,26 @@ from sqlalchemy.sql import func
 
 
 class User(db.Model, UserMixin):
+    """
+    Represents a user of the application.
+
+    Attributes:
+        id (int): The unique identifier of the user.
+        username (str): The username of the user (must be unique).
+        phone_number (str): The phone number of the user (must be unique).
+        email_address (str): The email address of the user (must be unique).
+        password_hash (str): The hashed password of the user.
+        stocks (List[Stock]): A list of stocks owned by the user.
+
+    Methods:
+        password: The password property of the user.
+        password.setter: The setter method for the password property.
+        check_password_correction: Checks if the provided password matches the user's hashed password.
+        check_if_user_own_this_stock: Checks if the user owns a specific stock.
+        can_sell: Checks if the user can sell a specific number of shares of a stock they own.
+
+    """
+        
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     phone_number = db.Column(db.String(), nullable=False, unique=True)
@@ -38,6 +58,18 @@ class User(db.Model, UserMixin):
 
 
 class Stock(db.Model):
+    """
+    A class representing a stock in the database.
+
+    Attributes:
+        id (int): The unique ID of the stock in the database.
+        ticker (str): The ticker symbol of the stock.
+        average_price (float): The average price of the stock for the user.
+        shares (float): The number of shares the user owns for the stock.
+        date (datetime): The date and time the stock was added to the database.
+        user_id (int): The ID of the user who owns the stock.
+    """
+
     id = db.Column(db.Integer(), primary_key=True)
     ticker = db.Column(db.String(length=5), nullable=False)
     average_price = db.Column(db.Float(), nullable=False)
@@ -50,6 +82,16 @@ class Stock(db.Model):
     
 
 class Account(db.Model):
+    """
+    A class representing a user's account in the database.
+
+    Attributes:
+        id (int): The unique ID of the account in the database.
+        account_owner (int): The ID of the user who owns the account.
+        balance (float): The current balance of the account.
+
+    """
+    
     id = db.Column(db.Integer(), primary_key=True)
     account_owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
     balance = db.Column(db.Float(), nullable=False, default=1_000_000)

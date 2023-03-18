@@ -6,6 +6,7 @@ from website import app
 import requests
 import json
 import matplotlib.pyplot as plt
+from typing import Union
 
 load_dotenv()
 api_key = key=os.getenv("API_KEY")
@@ -13,8 +14,15 @@ api_key = key=os.getenv("API_KEY")
 ts = TimeSeries(key=api_key, output_format="pandas")
 
 
-def get_stock_price_by_ticker(stock_ticker: str):
-    """ Gets a ticker symbol as a parameter and returns its stock price """
+def get_stock_price_by_ticker(stock_ticker: str) -> Union[str, float]:
+    """
+    Parameters:
+        stock_ticker (str): The ticker symbol for the desired stock.
+
+    Returns:
+        Union[str, float]: If the ticker symbol is valid, returns the current price of the stock as a float. If the ticker
+        symbol is invalid, returns a string error message.
+    """    
 
     try:
         data, _ = ts.get_daily_adjusted(symbol=stock_ticker, outputsize="compact")
@@ -25,7 +33,18 @@ def get_stock_price_by_ticker(stock_ticker: str):
 
 
 
-def plot_a_graph(symbol):
+def plot_a_graph(symbol: str) -> str:
+    """
+        Retrieves stock prices data from AlphaVantage API for the specified stock symbol,
+        plots a graph using Matplotlib, and saves it as a PNG file. Returns the filename of the saved graph.
+
+        Parameters:
+            symbol (str): The stock ticker symbol.
+
+        Returns:
+            filename (str): The filename of the saved graph.
+    """
+
     interval = "60min"
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={interval}&apikey={api_key}'
 

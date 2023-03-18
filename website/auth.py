@@ -8,6 +8,16 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=["POST", "GET"])
 def login_page():
+    """
+        This view function handles the login page. It displays a login form to the user,
+        and authenticates the user's credentials upon submission of the form.
+
+        Returns:
+            --------
+            GET: renders the login template.
+            POST: redirects the user to the home page if their credentials are valid. Otherwise,
+            the user stays on the login page and an error message is flashed.
+    """
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -27,7 +37,17 @@ def login_page():
 
 @auth.route("/register", methods=["POST", "GET"])
 def register_page():
+    """
+        Registers a new user account.
 
+        GET: Display the registration form.
+        POST: Process the registration form, validate user input and create a new user account if input is valid.
+        Upon successful registration, log the user in and redirect to the home page.
+
+        Returns:
+            A rendered HTML template for the registration page with a form to create a new user account.
+
+    """
     form = RegisterForm()
     if form.validate_on_submit():
         user_to_create = User(
@@ -52,6 +72,13 @@ def register_page():
 @auth.route("/logout")
 @login_required
 def logout_page():
+    """
+        Logout the current user and redirect to the login page.
+
+        Returns:
+            Flask redirect response: Redirects to the login page after logging the user out.
+
+    """ 
 
     logout_user()
     flash(message="You have been logged out!", category="info")

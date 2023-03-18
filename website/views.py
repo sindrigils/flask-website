@@ -16,6 +16,17 @@ def home_page():
 @views.route("/stock_ticker", methods=["POST", "GET"])
 @login_required
 def stock_ticker_page():
+    """
+    A function that handles the stock ticker page.
+
+    Methods:
+        GET: Renders the stock ticker page.
+        POST: Retrieves the stock price for the given stock ticker and displays it on the page.
+
+    Returns:
+        render_template: A Flask function that renders a template containing the stock ticker form and the retrieved stock price.
+    """
+
     form = StockTickerForm()
     
     if form.validate_on_submit():
@@ -31,6 +42,21 @@ def stock_ticker_page():
 @views.route("/buy_stock<stock_ticker>/<stock_price>", methods=["POST", "GET"])
 @login_required
 def buy_stock_page(stock_ticker, stock_price):
+    """
+    This view function allows the user to buy stocks. It retrieves the stock ticker and price passed through the URL.
+    It then instantiates a form to enter the number of shares to purchase. If the form is submitted, it first checks
+    if the user already owns the stock, and if so, it adds the new shares to the existing shares and updates the average price.
+    If not, it adds the new stock to the database. It then flashes a success message and redirects the user to the stock ticker page.
+    If the form is not submitted, it renders the "buy_stock.html" template with the form, stock ticker, stock price and the filename
+    of the plot generated for that stock ticker. 
+
+    :param stock_ticker: A string representing the stock ticker to buy.
+    :param stock_price: A string representing the current price of the stock.
+    :return: A rendered HTML template that displays the purchase form, stock ticker, stock price and the filename
+    of the plot generated for that stock ticker.
+    """
+
+
     form = PurchaseStockForm()
     filename = plot_a_graph(stock_ticker)
 
@@ -68,6 +94,13 @@ def buy_stock_page(stock_ticker, stock_price):
 @views.route("/profile", methods=["POST", "GET"])
 @login_required
 def profile_page():
+    """
+    Displays the profile page for the logged-in user. If the user submits the account creation form on this page, a new bank account is created for them and added to the database. 
+
+    Returns:
+        render_template: Flask function that renders the profile.html template with the owned_stocks and account information.
+    """
+
     form = AccountForm()
 
     if form.validate_on_submit():
@@ -85,6 +118,17 @@ def profile_page():
 @views.route("/sell_stock", methods=["POST", "GET"])
 @login_required
 def sell_stock_page():
+    """
+    Sell stock page route for the web application.
+
+    Displays a form for the user to input the stock ticker and the amount of shares they want to sell. Upon submission, the function checks if the user has enough shares of the stock to sell. If they do, it subtracts the sold amount of shares from their stock holdings, updates the database accordingly, and redirects the user to the profile page. If they do not have enough shares to sell, the function displays an error message.
+
+    Requires the user to be logged in to access the page. Uses the `SellStockForm` FlaskForm to validate the form data.
+
+    Returns:
+        A rendered HTML template, including the `SellStockForm` and appropriate messages.
+    """
+
     form = SellStockForm()
 
     if form.validate_on_submit():
