@@ -29,8 +29,7 @@ def login_page():
 
             return redirect(url_for("views.home_page"))
         
-        else:
-            flash(message="Username and password don't match! Please try again", category="danger")
+        flash(message="Username and password don't match! Please try again", category="danger")
 
     return render_template("login.html", form=form)
 
@@ -60,6 +59,7 @@ def register_page():
         db.session.commit()
         flash(message=f"Account created successfully, welcome {user_to_create.username}", category="success")
         login_user(user_to_create)
+
         return redirect(url_for("views.home_page"))
     
     if form.errors != {}:

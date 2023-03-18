@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
         phone_number (str): The phone number of the user (must be unique).
         email_address (str): The email address of the user (must be unique).
         password_hash (str): The hashed password of the user.
+        accounts: (Account): The Account Model that the user owns. (limit 1)
         stocks (List[Stock]): A list of stocks owned by the user.
 
     Methods:
@@ -74,6 +75,7 @@ class Stock(db.Model):
         ticker (str): The ticker symbol of the stock.
         average_price (float): The average price of the stock for the user.
         shares (float): The number of shares the user owns for the stock.
+        cost_basis (float): The total cost the user spend on the stock.
         date (datetime): The date and time the stock was added to the database.
         user_id (int): The ID of the user who owns the stock.
     """
@@ -109,20 +111,15 @@ class Account(db.Model):
 
     @property
     def prettier_balance(self):
-        # balance_int = int(self.balance * 100)
-        # balance_str = f'{balance_int:09d}'
-        # groups = [balance_str[-i-3:-i] for i in range(0, len(balance_str), 3)]
-        # groups.reverse()
-        # return f"{','.join(groups)}{balance_str[-2:]}$"
         return self.balance
 
 
-    def deposit(self, amount):
-        self.balance += amount
+    # def deposit(self, amount):
+    #     self.balance += amount
 
 
-    def withdraw(self, amount):
-        if amount > self.balance:
-            return "Not enough money on account!"
-        self.balance -= amount
+    # def withdraw(self, amount):
+    #     if amount > self.balance:
+    #         return "Not enough money on account!"
+    #     self.balance -= amount
 

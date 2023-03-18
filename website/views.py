@@ -124,11 +124,11 @@ def profile_page():
         db.session.add(account_created)
         db.session.commit()
 
-
     owned_stocks = Stock.query.filter_by(user_id=current_user.id)
     has_account = Account.query.filter_by(user_id=current_user.id).first()
 
     return render_template("profile.html", stocks=owned_stocks, form=form, account=has_account)
+
 
 @views.route("/sell_stock", methods=["POST", "GET"])
 @login_required
@@ -154,6 +154,7 @@ def sell_stock_page():
         if not owned_stock:
             flash(message=f"This ticker {stock_ticker} does not exists!, please try another ticker!", category="danger")
             return render_template("sell_stock.html", form=form)
+        
         if current_user.can_sell(stock_ticker=stock_ticker, shares=stock_shares):
 
             # update the stock
