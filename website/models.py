@@ -29,7 +29,9 @@ class User(db.Model, UserMixin):
     phone_number = db.Column(db.String(), nullable=False, unique=True)
     email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(), nullable=False)
-    stocks = db.relationship("Stock", backref="owned_user", lazy=True)
+    accounts = db.relationship("Account", backref="user", lazy=True)
+    stocks = db.relationship("Stock", backref="user_ref", lazy=True)
+
 
     @property
     def password(self):
@@ -56,6 +58,12 @@ class User(db.Model, UserMixin):
         return stock.shares >= shares
 
 
+    def can_buy(self, total_cost):
+        account = Account.query.filter_by(user_id=self.id).first()
+
+        return account.balance >= total_cost
+        
+        
 
 class Stock(db.Model):
     """
@@ -74,11 +82,12 @@ class Stock(db.Model):
     ticker = db.Column(db.String(length=5), nullable=False)
     average_price = db.Column(db.Float(), nullable=False)
     shares = db.Column(db.Float(), nullable=False)
+    cost_basis = db.Column(db.Float(), nullable=False)
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     def __repr__(self) -> str:
-        return f"Stock: {self.ticker} at {self.bought_price}$"
+        return f"Stock: {self.ticker} at {self.average_price}$"
     
 
 class Account(db.Model):
@@ -93,17 +102,20 @@ class Account(db.Model):
     """
     
     id = db.Column(db.Integer(), primary_key=True)
-    account_owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     balance = db.Column(db.Float(), nullable=False, default=1_000_000)
+    user_ref = db.relationship("User", backref=db.backref("user_accounts", lazy=True), overlaps="accounts,user")
+
 
 
     @property
     def prettier_balance(self):
-        balance_int = int(self.balance * 100)
-        balance_str = f'{balance_int:09d}'
-        groups = [balance_str[-i-3:-i] for i in range(0, len(balance_str), 3)]
-        groups.reverse()
-        return f"{','.join(groups)}{balance_str[-2:]}$"
+        # balance_int = int(self.balance * 100)
+        # balance_str = f'{balance_int:09d}'
+        # groups = [balance_str[-i-3:-i] for i in range(0, len(balance_str), 3)]
+        # groups.reverse()
+        # return f"{','.join(groups)}{balance_str[-2:]}$"
+        return self.balance
 
 
     def deposit(self, amount):
