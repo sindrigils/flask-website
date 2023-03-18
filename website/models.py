@@ -29,8 +29,8 @@ class User(db.Model, UserMixin):
     phone_number = db.Column(db.String(), nullable=False, unique=True)
     email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(), nullable=False)
-    accounts = db.relationship("Account", backref="user", lazy=True)
-    stocks = db.relationship("Stock", backref="user_ref", lazy=True)
+    accounts = db.relationship("Account", back_populates="user", uselist=False, lazy=True)
+    stocks = db.relationship("Stock", backref="user", lazy=True)
 
 
     @property
@@ -90,13 +90,13 @@ class Stock(db.Model):
         return f"Stock: {self.ticker} at {self.average_price}$"
     
 
-class Account(db.Model):
+class Account(db.Model): 
     """
     A class representing a user's account in the database.
 
     Attributes:
         id (int): The unique ID of the account in the database.
-        account_owner (int): The ID of the user who owns the account.
+        user_id (int): The ID of the user who owns the account.
         balance (float): The current balance of the account.
 
     """
@@ -104,8 +104,7 @@ class Account(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     balance = db.Column(db.Float(), nullable=False, default=1_000_000)
-    user_ref = db.relationship("User", backref=db.backref("user_accounts", lazy=True), overlaps="accounts,user")
-
+    user = db.relationship("User", back_populates="accounts", lazy=True)
 
 
     @property

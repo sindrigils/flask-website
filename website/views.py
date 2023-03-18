@@ -149,9 +149,12 @@ def sell_stock_page():
     if form.validate_on_submit():
         stock_ticker = form.stock_ticker.data.upper()
         stock_shares = form.shares.data
-
+        owned_stock = Stock.query.filter_by(user_id=current_user.id, ticker=stock_ticker).first()
+        
+        if not owned_stock:
+            flash(message=f"This ticker {stock_ticker} does not exists!, please try another ticker!", category="danger")
+            return render_template("sell_stock.html", form=form)
         if current_user.can_sell(stock_ticker=stock_ticker, shares=stock_shares):
-            owned_stock = Stock.query.filter_by(user_id=current_user.id, ticker=stock_ticker).first()
 
             # update the stock
             old_total_shares = owned_stock.shares

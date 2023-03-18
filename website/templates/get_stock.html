@@ -21,18 +21,22 @@
     
     <br>
     {% if stock_price %}
+        {% if stock_price != "Ticker symbol does not exists!" %}
 
-        <h3>Ticker symbol: {{ stock_ticker }}</h3>
-        <h3>Price: {{ stock_price }}</h3>
+            <h3>Ticker symbol: {{ stock_ticker }}</h3>
+            <h3>Price: {{ stock_price }}</h3>
         
     <br>
     
-    <h3>Would you like to buy this stock?</h3>
-    <a href="{{ url_for('views.buy_stock_page', stock_ticker=stock_ticker, stock_price=stock_price)}}">Yes</a>
-    
-    
+        <h3>Would you like to buy this stock?</h3>
+        <a href="{{ url_for('views.buy_stock_page', stock_ticker=stock_ticker, stock_price=stock_price)}}">Yes</a>
 
+        {% else %}
+            <h2>This stock ticker does not exists!</h2>
+        
+        {% endif %}
     {% endif %}
+
 </body>
 
 {% endblock %}
