@@ -10,6 +10,7 @@ Flask <br />
 Flask-WTF <br />
 Flask-Login <br />
 Flask-SQLAlchemy <br /> 
+Alpha Vantage API key <br /> 
 
 # Installation
 1. Clone this repository.
