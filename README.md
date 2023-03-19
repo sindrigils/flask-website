@@ -5,7 +5,7 @@ This is a Flask application that allows users to create an account and trade sto
 # Prerequisites
 Before you can run this application, you will need to have the following installed:
 
-Python 3.6+
+Python 3.6+ <br />
 Flask <br />
 Flask-WTF <br />
 Flask-Login <br />
