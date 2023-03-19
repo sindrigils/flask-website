@@ -6,10 +6,10 @@ This is a Flask application that allows users to create an account and trade sto
 Before you can run this application, you will need to have the following installed:
 
 Python 3.6+
-Flask. 
-Flask-WTF. 
-Flask-Login. 
-Flask-SQLAlchemy. 
+Flask <br />
+Flask-WTF <br />
+Flask-Login <br />
+Flask-SQLAlchemy <br /> 
 
 # Installation
 1. Clone this repository.
