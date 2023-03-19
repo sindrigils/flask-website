@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, SubmitField, FloatField
+from wtforms import StringField, PasswordField, SubmitField, FloatField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from website.models import User
+from string import punctuation
 
 class RegisterForm(FlaskForm):
     """
@@ -16,7 +17,7 @@ class RegisterForm(FlaskForm):
         submit (SubmitField): The button to submit the registration form.
 
     Methods:
-        validate_username: Validates the entered username against the database.
+        validate_username: Validates the entered username against the database and username not allowed to have punctutaions.
         validate_email_address: Validates the entered email address against the database.
         validate_phone_number: Validates the entered phone number against the database.
     """
@@ -25,6 +26,9 @@ class RegisterForm(FlaskForm):
         user = User.query.filter_by(username=username_to_check.data).first()
         if user:
             raise ValidationError(message=f"Username already exists, please try a different username!")
+        
+        if any(char in punctuation for char in username_to_check.data):
+            raise ValidationError(message=f"Username should not contain any punctuations!")
     
 
     def validate_email_address(self, email_address_to_check: str):
@@ -54,7 +58,15 @@ class LoginForm(FlaskForm):
         username (StringField): The username of the user.
         password (PasswordField): The password of the user.
         submit (SubmitField): The button to submit the login form.
+
+    Methods:
+        validate_user_name: Validates that the username has no puntuations.
     """
+
+    def validate_username(self, username_to_check: str):
+        if any(char in punctuation for char in username_to_check.data):
+            raise ValidationError(message=f"Username should not contain any punctuations!")
+    
 
     username = StringField(label="Username: ", validators=[DataRequired()])
     password = PasswordField(label="Password: ", validators=[DataRequired()])
