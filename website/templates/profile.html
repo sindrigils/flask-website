@@ -3,12 +3,24 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
 <body class="bg-light text-dark" style="margin:0px">
     
+
+    <div class="container">
+        <form method="post" class="search-bar">
+            <input type="text" name="search bar" placeholder="Enter a ticker symbol">
+            <button type="text" class="">
+                <img src="../static/icons/search.svg" alt="search icon" class="search-icon">
+            </button>
+        </form>
+    </div>
+
 
     <div class="row " style="margin-top:20px; margin-left:20px">
         <div class="col-8">
             <h2>Portfolio</h2>
+            <p>{{ balance }}</p>
             <br>
         <table class="table table-hover table-dark">
             <thead>
@@ -39,44 +51,11 @@
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <a class="btn btn-primary btn-lg" href="{{ url_for('views.stock_ticker_page') }}" role="button">Buy</a>
                 <a class="btn btn-primary btn-lg" href="{{ url_for('views.sell_stock_page') }}" role="button">Sell</a>
             </div>
         </div>
     </div>
 
-    {% if account %}
-        <div class="container">
-            
-            <h2>Bank Account</h2>
-            <table class="table table-hover table-dark">
-                <thead>
-                    <tr>
-                        <!-- Your Columns HERE -->
-                        <th scope="col">Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Your rows inside the table HERE: -->
-                    <tr>
-                        <td>{{ account.prettier_balance }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    
-    {% else %}
-        <div class="container">
-            <form method="POST" style="color:white">
-                {{ form.hidden_tag() }}
-                <br>
-                <br>
-                <br>
-                {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
-            </form>
-        </div>
-    {% endif %}
-    
 
 </body>
 {% endblock %}

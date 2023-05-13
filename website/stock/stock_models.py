@@ -1,12 +1,9 @@
-from matplotlib.dates import DateFormatter
 import pandas as pd
 from alpha_vantage.timeseries import TimeSeries
 import os
 from dotenv import load_dotenv
-from website import app
-import matplotlib.pyplot as plt
-from datetime import datetime
-from typing import Union
+from typing import List, Union, Tuple
+import requests
 
 load_dotenv()
 api_key = key=os.getenv("API_KEY")
@@ -14,7 +11,7 @@ api_key = key=os.getenv("API_KEY")
 ts = TimeSeries(key=api_key, output_format="pandas")
 
 
-def get_stock_price_by_ticker(stock_ticker: str) -> Union[str, float]:
+def get_stock_price_by_ticker(stock_ticker: str) -> Union[str, Tuple[List[float], List[str]]]:
     """
     Parameters:
         stock_ticker (str): The ticker symbol for the desired stock.
@@ -25,42 +22,29 @@ def get_stock_price_by_ticker(stock_ticker: str) -> Union[str, float]:
     """    
 
     try:
-        data, _ = ts.get_daily_adjusted(symbol=stock_ticker, outputsize="compact")
+        data, _ = ts.get_intraday(symbol=stock_ticker, interval="60min")
     except ValueError:
-        return "Ticker symbol does not exists!"
+        return "None", "None"
     
-    return data["2. high"][0]
+    return data["4. close"].tolist(), data.index.tolist()[::-1]
 
 
-def plot_a_graph(symbol):
-    interval = "60min"
-    # Retrieve the stock prices data from Alpha Vantage
-    data, meta_data = ts.get_intraday(symbol=symbol, interval=interval)
 
-    dates = data.index.tolist()
-    prices = data['4. close'].tolist()
 
-    # Convert the date strings to datetime objects
-    dates = [datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S') for date in dates]
+def get_balance_sheet(stock_ticker):
+    url = f"https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol={stock_ticker}&apikey={api_key}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        balance_sheet = response.json()
+        return balance_sheet
+    return "Balance sheet failed"
 
-    # Plot the stock prices data using Matplotlib
-    fig, ax = plt.subplots()
-    ax.plot(dates, prices)
-    ax.set_xlabel('Time')
-    ax.set_ylabel('Price')
-    ax.set_title(f'Stock Prices for {symbol}')
+# print(get_balance_sheet("tsla")["annualReports"][0]["currentDebt"])
 
-    # Format the timestamps on the x-axis
-    date_fmt = DateFormatter('%Y-%m-%d %H:%M:%S')
-    ax.xaxis.set_major_formatter(date_fmt)
-    fig.autofmt_xdate()
+# currentDebt
+# totalAssets
 
-    # Save the graph as a PNG file
-    filename = f'{symbol}_graph.png'
-    filepath = os.path.join(app.root_path, 'static', 'graphs', filename)
-    plt.savefig(filepath)
+def get_cashflow(stock_ticker):
+    url = f"https://www.alphavantage.co/query?function=CASH_FLOW&symbol={stock_ticker}&apikey={api_key}"
 
-    plt.close()
-
-    return filename
 

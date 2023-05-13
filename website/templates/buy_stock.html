@@ -3,7 +3,10 @@
 {% block title %} Buying stock {% endblock %}
 
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/index1.css') }}">
 <body class="text-center">
+        
     <div class="container">
         <h2>You are buying {{ stock_ticker }} at {{ stock_price }}$</h2>
         <form method="POST" style="color: white">
@@ -16,8 +19,59 @@
             
             {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
         </form>
-
-        <img src="{{ url_for('static', filename='graphs/' + filename) }}">
     </div>
+
+    <canvas id="myChart"></canvas>
+    <script>
+        // Get the data from Flask
+        const prices = JSON.parse('{{ prices | tojson }}');
+        const dates = JSON.parse('{{ dates | tojson }}');
+
+        // Set the data
+        const data = {
+        labels: dates,
+        datasets: [{
+            label: 'Price',
+            data: prices,
+            borderColor: 'blue',
+            fill: false
+        }]
+        };
+
+        // Set the options
+        const options = {
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Price vs Time'
+        },
+        scales: {
+            xAxes: [{
+            type: 'time',
+            time: {
+                unit: 'hour'
+            },
+            scaleLabel: {
+                display: true,
+                labelString: 'Time'
+            }
+            }],
+            yAxes: [{
+            scaleLabel: {
+                display: true,
+                labelString: 'Price'
+            }
+            }]
+        }
+        };
+
+        // Create the chart
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+        });
+    </script>
 </body>
 {% endblock %}

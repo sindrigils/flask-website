@@ -112,15 +112,3 @@ class SellStockForm(FlaskForm):
     stock_ticker = StringField(label="Stock ticker: ", validators=[DataRequired()])
     shares = FloatField(label="Shares: ", validators=[DataRequired()])
     submit = SubmitField(label="Sell stock!")
-
-
-
-class AccountForm(FlaskForm):
-    """
-    A class representing a form to create a bank account.
-
-    Attributes:
-        submit (SubmitField): The button to submit the form.
-    """
-    
-    submit = SubmitField(label="Create Bank Account!")

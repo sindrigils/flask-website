@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
     phone_number = db.Column(db.String(), nullable=False, unique=True)
     email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(), nullable=False)
-    accounts = db.relationship("Account", back_populates="user", uselist=False, lazy=True)
+    balance = db.Column(db.Float(), nullable=False, default=1_000_000)
     stocks = db.relationship("Stock", backref="user", lazy=True)
 
 
@@ -60,9 +60,7 @@ class User(db.Model, UserMixin):
 
 
     def can_buy(self, total_cost):
-        account = Account.query.filter_by(user_id=self.id).first()
-
-        return account.balance >= total_cost
+        return self.balance >= total_cost
         
         
 
@@ -91,35 +89,4 @@ class Stock(db.Model):
     def __repr__(self) -> str:
         return f"Stock: {self.ticker} at {self.average_price}$"
     
-
-class Account(db.Model): 
-    """
-    A class representing a user's account in the database.
-
-    Attributes:
-        id (int): The unique ID of the account in the database.
-        user_id (int): The ID of the user who owns the account.
-        balance (float): The current balance of the account.
-
-    """
-    
-    id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
-    balance = db.Column(db.Float(), nullable=False, default=1_000_000)
-    user = db.relationship("User", back_populates="accounts", lazy=True)
-
-
-    @property
-    def prettier_balance(self):
-        return self.balance
-
-
-    # def deposit(self, amount):
-    #     self.balance += amount
-
-
-    # def withdraw(self, amount):
-    #     if amount > self.balance:
-    #         return "Not enough money on account!"
-    #     self.balance -= amount
 
