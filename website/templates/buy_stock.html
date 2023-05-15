@@ -3,23 +3,25 @@
 {% block title %} Buying stock {% endblock %}
 
 {% block content %}
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/index1.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/buy_stock.css') }}">
+
+
+
 <body class="text-center">
-        
-    <div class="container">
-        <h2>You are buying {{ stock_ticker }} at {{ stock_price }}$</h2>
-        <form method="POST" style="color: white">
-            {{ form.hidden_tag() }}
+    {% include 'includes/buy_stock_modal.html' %}
+    {% include 'includes/sell_stock_modal.html' %}
+ 
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buyModal">
+        Buy Stock
+    </button>
 
-            {{ form.shares.label() }}
-            {{ form.shares(class="form-control", placeholder="Shares")}}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sellModal">
+        Sell Stock
+    </button>
 
-            <br>
-            
-            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
-        </form>
-    </div>
+
 
     <canvas id="myChart"></canvas>
     <script>
@@ -73,5 +75,16 @@
         options: options
         });
     </script>
+
+    <!-- <script>
+        $(document).ready(function() {
+            $('#buyButton').click(function() {
+                console.log('Button clicked');  // <-- Add this line
+                $('#buyModal').modal('show');
+            });
+    });
+    </script>
+     -->
+  
 </body>
 {% endblock %}

@@ -11,6 +11,13 @@ api_key = key=os.getenv("API_KEY")
 ts = TimeSeries(key=api_key, output_format="pandas")
 
 
+def convert_timestamps_to_datetime(time_list: List):
+
+    formatted_datetimes = [timestamp.to_pydatetime().strftime('%a, %d %b %Y %H:%M') for timestamp in time_list]
+
+    return formatted_datetimes
+
+
 def get_stock_price_by_ticker(stock_ticker: str) -> Union[str, Tuple[List[float], List[str]]]:
     """
     Parameters:
@@ -22,11 +29,13 @@ def get_stock_price_by_ticker(stock_ticker: str) -> Union[str, Tuple[List[float]
     """    
 
     try:
-        data, _ = ts.get_intraday(symbol=stock_ticker, interval="60min")
+        data, _ = ts.get_intraday(symbol=stock_ticker.upper(), interval="60min")
     except ValueError:
         return "None", "None"
     
-    return data["4. close"].tolist(), data.index.tolist()[::-1]
+    return data["4. close"].tolist(), convert_timestamps_to_datetime(data.index.tolist()[::-1])
+
+
 
 
 
@@ -48,3 +57,5 @@ def get_cashflow(stock_ticker):
     url = f"https://www.alphavantage.co/query?function=CASH_FLOW&symbol={stock_ticker}&apikey={api_key}"
 
 
+
+# print(get_stock_price_by_ticker("tsla"))

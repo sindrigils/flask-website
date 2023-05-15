@@ -73,19 +73,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField(label="Sign in")
 
 
-class StockTickerForm(FlaskForm):
-    """
-    A class representing a form to get stock ticker information.
-
-    Attributes:
-        stock_ticker (StringField): The stock ticker to get information for.
-        submit (SubmitField): The button to submit the form.
-    """
-
-    stock_ticker = StringField(label="Stock ticker: ", validators=[Length(min=2, max=5), DataRequired()])
-    submit = SubmitField(label="Get stock ticker")
-
-
 class PurchaseStockForm(FlaskForm):
     """
     A class representing a form to purchase a stock.
@@ -96,7 +83,7 @@ class PurchaseStockForm(FlaskForm):
     """
 
     shares = FloatField(label="Shares: ", validators=[DataRequired()])
-    submit = SubmitField(label="Purchase stock!")
+    submit_buy = SubmitField(label="Purchase stock!")
 
 
 class SellStockForm(FlaskForm):
@@ -109,6 +96,5 @@ class SellStockForm(FlaskForm):
         submit (SubmitField): The button to submit the form.
     """
 
-    stock_ticker = StringField(label="Stock ticker: ", validators=[DataRequired()])
     shares = FloatField(label="Shares: ", validators=[DataRequired()])
-    submit = SubmitField(label="Sell stock!")
+    submit_sell = SubmitField(label="Sell stock!")

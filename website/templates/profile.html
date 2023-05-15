@@ -29,6 +29,7 @@
                     <th scope="col">Ticker</th>
                     <th scope="col">Shares</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Cost basis</th>
                     <th scope="col">Date</th>
                 </tr>
             </thead>
@@ -39,6 +40,7 @@
                     <td>{{ stock.ticker }}</td>
                     <td>{{ stock.shares }}</td>
                     <td>{{ stock.average_price }}$</td>
+                    <td>{{ stock.shares * stock.average_price }}$</td>
                     <td>{{ stock.date }}</td>
                 </tr>
                 {% endfor %}
@@ -48,13 +50,6 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <a class="btn btn-primary btn-lg" href="{{ url_for('views.sell_stock_page') }}" role="button">Sell</a>
-            </div>
-        </div>
-    </div>
 
 
 </body>
