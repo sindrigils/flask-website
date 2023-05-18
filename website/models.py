@@ -61,6 +61,11 @@ class User(db.Model, UserMixin):
 
     def can_buy(self, total_cost):
         return self.balance >= total_cost
+    
+    def formatted_balance(self):
+        formatted_balance = f"{self.balance:,.0f}" if self.balance.is_integer() else f"{self.balance:,.2f}"
+        return formatted_balance
+
         
         
 
@@ -89,4 +94,8 @@ class Stock(db.Model):
     def __repr__(self) -> str:
         return f"Stock: {self.ticker} at {self.average_price}$"
     
+    def formatted_string(self, str_to_format):
+        formatted_string = f"{str_to_format:,.0f}" if str_to_format.is_integer() else f"{str_to_format:,.2f}"
+        return formatted_string
 
+    
