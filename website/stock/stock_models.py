@@ -12,13 +12,14 @@ ts = TimeSeries(key=api_key, output_format="pandas")
 
 
 def convert_timestamps_to_datetime(time_list: List):
-
+    """ helper function for converting timestamps into datetime """
+    
     formatted_datetimes = [timestamp.to_pydatetime().strftime('%a, %d %b %Y %H:%M') for timestamp in time_list]
 
     return formatted_datetimes
 
 
-def get_stock_price_by_ticker(stock_ticker: str) -> Union[str, Tuple[List[float], List[str]]]:
+def get_stock_prices_and_dates_by_ticker(stock_ticker: str) -> Union[str, Tuple[List[float], List[str]]]:
     """
     Parameters:
         stock_ticker (str): The ticker symbol for the desired stock.
@@ -30,14 +31,26 @@ def get_stock_price_by_ticker(stock_ticker: str) -> Union[str, Tuple[List[float]
 
     try:
         data, _ = ts.get_intraday(symbol=stock_ticker.upper(), interval="60min")
-    except ValueError:
+        return data["4. close"].tolist(), convert_timestamps_to_datetime(data.index.tolist()[::-1])
+    except Exception:
         return "None", "None"
     
-    return data["4. close"].tolist(), convert_timestamps_to_datetime(data.index.tolist()[::-1])
 
+def get_latest_stock_price(stock_ticker):
+    try:
+        data, _ = ts.get_daily_adjusted(symbol=stock_ticker)
+        return data["4. close"][0]
+    except Exception:
+        return None
+    
 
+def get_company_name(stock_ticker):
+    ticker_data = ts.get_symbol_search(keywords=stock_ticker)
 
-
+    try:
+        return ticker_data[0]["2. name"][0]
+    except Exception:
+        return None
 
 
 def get_balance_sheet(stock_ticker):
@@ -55,7 +68,3 @@ def get_balance_sheet(stock_ticker):
 
 def get_cashflow(stock_ticker):
     url = f"https://www.alphavantage.co/query?function=CASH_FLOW&symbol={stock_ticker}&apikey={api_key}"
-
-
-
-# print(get_stock_price_by_ticker("tsla"))
