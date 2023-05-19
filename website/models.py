@@ -58,7 +58,6 @@ class User(db.Model, UserMixin):
         stock = Stock.query.filter_by(user_id=self.id, ticker=stock_ticker).first()
         return stock.shares >= shares
 
-
     def can_buy(self, total_cost):
         return self.balance >= total_cost
     

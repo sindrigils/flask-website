@@ -36,7 +36,19 @@ def stock_page(stock_ticker, current_stock_price):
     
     buy_form = PurchaseStockForm()
     sell_form = SellStockForm()
-            
+
+
+    if request.method == "POST" and "search bar" in request.form:
+        ticker_symbol = request.form["search bar"].strip().upper()
+        stock_price = get_latest_stock_price(ticker_symbol)
+
+        
+        if stock_price is None:
+            flash(message=f"Not a valid ticker symbol {ticker_symbol}!", category="danger")
+            return redirect(url_for("views.profile_page"))
+        
+        return redirect(url_for("views.stock_page", stock_ticker=ticker_symbol, current_stock_price=stock_price))
+
 
     if buy_form.validate_on_submit() and buy_form.submit_buy.data:
         
@@ -140,7 +152,7 @@ def profile_page():
     
     owned_stocks = Stock.query.filter_by(user_id=current_user.id)
 
-    if request.method == "POST":
+    if request.method == "POST" and "search bar" in request.form:
         ticker_symbol = request.form["search bar"].strip().upper()
         stock_price = get_latest_stock_price(ticker_symbol)
 
@@ -148,7 +160,6 @@ def profile_page():
         if stock_price is None:
             flash(message=f"Not a valid ticker symbol {ticker_symbol}!", category="danger")
             return redirect(url_for("views.profile_page"))
-        
         
         return redirect(url_for("views.stock_page", stock_ticker=ticker_symbol, current_stock_price=stock_price))
     

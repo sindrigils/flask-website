@@ -6,6 +6,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/stock_page.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
 
 
 
@@ -13,11 +14,23 @@
     {% include 'includes/buy_stock_modal.html' %}
     {% include 'includes/sell_stock_modal.html' %}
 
+
+    <div class="search-bar-div">
+        <form method="post" class="search-bar">
+            <input type="text" name="search bar" placeholder="Enter a ticker symbol">
+            <button type="submit">
+                <img src="../../static/icons/search.svg" alt="search icon">
+            </button>
+        </form>
+    </div>
+
+
     <div class="grid">
         <div class="container1">
 
             <div class="stock-header">
-                {{ stock_ticker }} {{ company_name }}
+                <span class="stock-ticker">{{ stock_ticker }}</span>
+                <span class="company-name">{{ company_name }}</span>
             </div>
 
             <div class="chart-div">
@@ -41,10 +54,18 @@
                     // Set the options
                     const options = {
                     responsive: true,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+
                     title: {
                         display: true,
                         text: 'Price vs Time'
                     },
+
                     scales: {
                         xAxes: [{
                         type: 'time',
@@ -79,23 +100,48 @@
         <div class="container2">
 
             <div class="buttons">
-                <div class="buy-button">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buyModal">
-                        Buy Stock
+                <div class="buy-button-container">
+                    <button type="button" class="buy-button" data-toggle="modal" data-target="#buyModal">
+                        Buy
                     </button>        
                 </div>
 
-                <div class="sell-button">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sellModal">
-                        Sell Stock
+                <div class="sell-button-container">
+                    <button type="button" class="sell-button" data-toggle="modal" data-target="#sellModal">
+                        Sell
                     </button>        
                 </div>
             </div>
 
             <div class="stock-info">
                 {% if owns_stock %}
-                    {{ stock_obj.ticker }}
-                
+                <!-- <div class="stock-position">Your Position</div>
+                <p>Ticker: {{ stock_obj.ticker }}</p>
+                <p>Shares: {{ stock_obj.shares }}</p>
+                <p>Cost basis: {{ stock_obj.cost_basis }}</p> -->
+                <table class="position-table">
+                    <tr>
+                      <th scope="row">Ticker</th>
+                      <td>{{ stock_obj.ticker }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Shares</th>
+                      <td>{{ stock_obj.formatted_string(stock_obj.shares) }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Price</th>
+                      <td>{{ stock_obj.average_price }}$</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Cost basis</th>
+                      <td>{{ stock_obj.formatted_string(stock_obj.cost_basis) }}$</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Date</th>
+                      <td>{{ stock_obj.date }}</td>
+                    </tr>
+                  </table>
+                  
                 {% else %}
                     <p>Dont own this stock</p>
 
