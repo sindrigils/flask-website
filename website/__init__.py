@@ -1,6 +1,3 @@
-import matplotlib
-matplotlib.use('agg')
-
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from flask_bcrypt import Bcrypt
@@ -24,7 +21,6 @@ login_manager = LoginManager(app)
 login_manager.login_view = "auth.login_page"
 login_manager.login_message_category = "info"
 
-os.makedirs(os.path.join(app.instance_path, 'static', 'graphs'), exist_ok=True)
 
 app.app_context().push()
 
@@ -33,8 +29,6 @@ app.register_blueprint(auth, url_prefix="/")
 
 from .views import views
 app.register_blueprint(views, url_prefix="/")
-
-
 
 
 from website.models import User
