@@ -1,0 +1,39 @@
+.background {
+    width: 100%;
+    background: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    margin: 20rem auto;
+    max-width: 800px;
+}
+
+.header {
+    margin-bottom: 3rem;
+    color: white;
+    font-size: 3rem;
+}
+
+.sub-header {
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.5rem;
+}
+
+.button {
+    color: white;
+    background: #007bff;
+    border: none;
+    border-radius: 0.3rem;
+    padding: 0.6rem 0.9rem;
+    height: 2.7rem;
+    width: 7rem;
+}

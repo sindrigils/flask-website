@@ -1,114 +1,76 @@
-
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 10vh 20vh auto;
+  grid-template-columns: 50% 50%;
+  grid-template-areas:
+    "header header"
+    "button1 button2"
+    "chart chart";
 }
 
-#myChart {
-  }
-  
-
-.container1 {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-}
-
-.container2 {
-  display: flex;
-  flex-direction: column;
-}
 
 .stock-header {
-  margin: 0;
-  position: absolute;
-  margin-top: 75px;
-  margin-left: 230px;
+  grid-area: header;
+  font-size: 2.5rem;
+  align-self: center;
+  justify-self: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.stock-header .company-name {
-  opacity: 0.8;
-  margin-left: 4px;
-  font-family: Arial;
+.company-name {
+  opacity: 0.7;
 }
-
-.stock-header .stock-ticker {
-  font-size: 18px;
-  font-family: Arial;
-  
-}
-
-.buttons {
-  display: flex;
-  margin-left: 240px;
-  margin-top: 200px;
-
-  
-}
-
-.chart-div {
-  margin-top: 100px;
-  margin-left: 0;
-  width: 1000px;
-  height: 1000px;
-}
-
 
 
 .buy-button-container {
+  grid-area: button1;
+  align-self: center;
+  justify-self: flex-end;
+  margin-right: 1rem;
 }
 
 .sell-button-container {
-  margin-left: 15px;
+  grid-area: button2;
+  justify-self: flex-start;
+  align-self: center;
+  margin-left: 1rem;
 }
 
-
-.sell-button, .buy-button {
-  background-color: rgb(200, 23, 23);
+.buy-button, .sell-button {
   color: white;
-
-  height: 42px;
-  width: 140px;
-
-  border-radius: 5px;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  padding: 0.4rem 0.8rem;
+  height: 4rem;
+  width: 7.5rem;
   border: none;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+}
 
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-
-  cursor: pointer;
+.buy-button:hover, .sell-button:hover {
+  opacity: 0.7;
+  transition: opacity 0.15s;
 }
 
 .buy-button {
-  background-color: #007bff;
+  background: #007bff;
 }
 
-.stock-info {
-  margin-left: 300px;
-  
+.sell-button {
+  background: rgba(220, 20, 60, 0.9);
 }
 
-
-.stock-position {
-  margin-top: 10px;
-  font-size: 20px;
-  font-family: Arial;
+#myChart {
+  height: 100%;
+  width: 100%;
 }
 
-.position-table {
-  width: 50%;
-  border-collapse: collapse;
-  margin-top: 26px;
-  margin-right: 450px;
-}
-
-th, td {
-  border: 1px solid black;
-  padding: 8px;
-}
-
-th {
-  background-color: #f2f2f2;
+.chart-div {
+  grid-area: chart;
+  align-self: center;
+  justify-self: center;
+  height: 90rem;
+  width: 90rem;
+  /* max-width: 50rem; */
 }
