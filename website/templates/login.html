@@ -6,7 +6,7 @@
     <div class="container">
         <form method="POST" class="form-signin" style="color:white">
             {{ form.hidden_tag() }}
-            <h1 class="h3 mb-3 font-weight-normal">
+            <h1 class="h3 mb-3 font-weight-normal" style="color: rgba(0, 0, 0, 0.8); margin-top: 2rem;">
                 Please Login
             </h1>
             <br>
@@ -20,8 +20,8 @@
             <br>
 
             <div class="checkbox mb-3">
-                <h6>DO not have an account?</h6>
-                <a class="btn btn-sm btn-secondary" href="{{ url_for('auth.register_page') }}">Register</a>
+                <h6 style="color: rgba(0, 0, 0, 0.8); margin-top: 2rem;">Don't have an account?</h6>
+                <a class="btn btn-sm btn-secondary" href="{{ url_for('auth.register_page') }}" style="margin: 1rem 0;">Register</a>
             </div>
 
             {{ form.submit(class="btn btn-lg btn-block btn-primary") }}

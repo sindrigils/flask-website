@@ -33,3 +33,11 @@
     width: 25px;
 
 }
+
+.user-balance p {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: rgb(71, 71, 229);
+    border-bottom: 1px solid black;
+    padding-bottom: 1px;
+}

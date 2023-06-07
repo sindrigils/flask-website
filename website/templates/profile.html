@@ -4,6 +4,20 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+<style>
+    .profit {
+        color: rgb(0, 128, 34);
+    }
+
+    .zero {
+        color: white;
+    }
+
+    .loss {
+        color: red;
+    }
+</style>
+
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
 <body class="bg-light text-dark" style="margin:0px">
     
@@ -17,11 +31,10 @@
         </form>
     </div>
 
-    
     <div class="row " style="margin-top:20px; margin-left:20px">
         <div class="col-8">
             <h2>Portfolio</h2>
-            <div>{{ current_user.formatted_balance() }}$</div>
+            <div class="user-balance"><p>{{ current_user.formatted_balance() }}$</p></div>
             <br>
         <table class="table table-hover table-dark">
             <thead>
@@ -32,6 +45,7 @@
                     <th scope="col">Price</th>
                     <th scope="col">Cost basis</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Profit/Loss</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +57,10 @@
                     <td>{{ stock.average_price }}$</td>
                     <td>{{ stock.formatted_string(stock.cost_basis) }}$</td>
                     <td>{{ stock.date }}</td>
+                    <td class="{% if stocks_state[stock.ticker] > 0 %}profit{% elif stocks_state[stock.ticker] == 0 %}zero{% else %}loss{% endif %}">
+                        {{ stocks_state[stock.ticker] }}$
+                    </td>
+                    
                 </tr>
                 {% endfor %}
             </tbody>

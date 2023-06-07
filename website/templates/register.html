@@ -4,12 +4,12 @@
 
 {% block content %}
 
-<body class="text-center">+
+<body class="text-center">
     <div class="container">
         <form method="POST" class="form-register" style="color:white">
             {{ form.hidden_tag() }}
             
-            <h1 class="h3 mb-3 font-weight-normal">
+            <h1 class="h3 mb-3 font-weight-normal"style="color: rgba(0, 0, 0, 0.8); margin-top: 2rem;">
                 Please Create your Account
             </h1>
             <br>
@@ -31,7 +31,7 @@
             <br>
 
             <div class="checkbox mb-3">
-                <h6>Already have an account?</h6>
+                <h6 style="color: rgba(0, 0, 0, 0.8);">Already have an account?</h6>
                 <a class="btn btn-sm btn-secondary" href="{{ url_for('auth.login_page') }}">Login</a>
              </div>
              

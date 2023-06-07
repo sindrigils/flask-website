@@ -6,7 +6,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/stock_page.css') }}">
-
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
 
 
 <body>
@@ -14,93 +14,81 @@
     {% include 'includes/sell_stock_modal.html' %}
 
     <div class="grid">
-        <div class="container1">
 
-            <div class="stock-header">
-                {{ stock_ticker }} {{ company_name }}
-            </div>
+        <div class="stock-header">
+            {{ stock_ticker }} <span class="company-name">{{ company_name }}</span>
+        </div>
 
-            <div class="chart-div">
-                <canvas id="myChart"></canvas>
-                <script>
-                    // Get the data from Flask
-                    const prices = JSON.parse('{{ prices | tojson }}');
-                    const dates = JSON.parse('{{ dates | tojson }}');
+        <div class="chart-div">
+            <canvas id="myChart"></canvas>
+            <script>
+                // Get the data from Flask
+                const prices = JSON.parse('{{ prices | tojson }}');
+                const dates = JSON.parse('{{ dates | tojson }}');
 
-                    // Set the data
-                    const data = {
-                    labels: dates,
-                    datasets: [{
-                        label: 'Price',
-                        data: prices,
-                        borderColor: 'blue',
-                        fill: false
-                    }]
-                    };
+                // Set the data
+                const data = {
+                labels: dates,
+                datasets: [{
+                    label: 'Price',
+                    data: prices,
+                    borderColor: 'blue',
+                    fill: false
+                }]
+                };
 
-                    // Set the options
-                    const options = {
-                    responsive: true,
-                    title: {
-                        display: true,
-                        text: 'Price vs Time'
+                // Set the options
+                const options = {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Price vs Time'
+                },
+                scales: {
+                    xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'hour'
                     },
-                    scales: {
-                        xAxes: [{
-                        type: 'time',
-                        time: {
-                            unit: 'hour'
-                        },
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Time'
-                        }
-                        }],
-                        yAxes: [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Price'
-                        }
-                        }]
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Time'
                     }
-                    };
+                    }],
+                    yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Price'
+                    }
+                    }]
+                }
+                };
 
-                    // Create the chart
-                    const ctx = document.getElementById('myChart').getContext('2d');
-                    const myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: data,
-                    options: options
-                    });
-                </script>
-            </div>
+                // Create the chart
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: options
+                });
+            </script>
         </div>
 
-        <div class="container2">
+    
 
-            <div class="buttons">
-                <div class="buy-button">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buyModal">
-                        Buy Stock
-                    </button>        
-                </div>
-
-                <div class="sell-button">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sellModal">
-                        Sell Stock
-                    </button>        
-                </div>
-            </div>
-
-            <div class="stock-info">
-                {% if owns_stock %}
-                    {{ stock_obj.ticker }}
-                
-                {% else %}
-                    <p>Dont own this stock</p>
-
-                {% endif %}
+        
+        <div class="buy-button-container">
+            <button type="button" class="buy-button" data-toggle="modal" data-target="#buyModal">
+                Buy Stock
+            </button>        
         </div>
+
+        <div class="sell-button-container">
+            <button type="button" class="sell-button" data-toggle="modal" data-target="#sellModal">
+                Sell Stock
+            </button>        
+        </div>
+    
     </div>
 
 

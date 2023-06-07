@@ -152,5 +152,9 @@ def profile_page():
         
         return redirect(url_for("views.stock_page", stock_ticker=ticker_symbol, current_stock_price=stock_price))
     
-    
-    return render_template("profile.html", stocks=owned_stocks, balance=current_user.balance)
+    try:
+        current_prices_of_owned_stock = {stock.ticker: (get_latest_stock_price(stock.ticker) * stock.shares) - stock.cost_basis for stock in owned_stocks}
+    except TypeError:
+        current_prices_of_owned_stock = {stock.ticker: 0 for stock in owned_stocks}
+
+    return render_template("profile.html", stocks=owned_stocks, balance=current_user.balance, stocks_state=current_prices_of_owned_stock)
