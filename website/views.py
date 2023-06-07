@@ -158,3 +158,4 @@ def profile_page():
         current_prices_of_owned_stock = {stock.ticker: 0 for stock in owned_stocks}
 
     return render_template("profile.html", stocks=owned_stocks, balance=current_user.balance, stocks_state=current_prices_of_owned_stock)
+

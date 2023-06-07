@@ -7,21 +7,6 @@
     z-index: -1;
 }
 
-
-/* .background {
-    width: 100vw;
-    background: transparent;
-    position: absolute;
-}  */
-
-/* .main-container {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    align-items: center;
-    margin-top: 20rem;
-} */
-
 .main-container {
     display: flex;
     flex-direction: column;
