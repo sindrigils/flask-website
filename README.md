@@ -24,4 +24,4 @@ Alpha Vantage API key <br />
 3. Create the database and run the program.
 
 # Usage
-Once the application is running, you can access it by navigating to http://localhost:5000 in your web browser.
+Once the application is running, you can access it by navigating to http://localhost:8080 in your web browser.
