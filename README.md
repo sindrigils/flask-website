@@ -3,14 +3,9 @@
 This is a Flask application that allows users to create an account and trade stocks.
 
 # Prerequisites
-Before you can run this application, you will need to have the following installed:
+Before you can run this application, you will need to have the following API key:
 
-Python 3.6+ <br />
-Flask <br />
-Flask-WTF <br />
-Flask-Login <br />
-Flask-SQLAlchemy <br /> 
-Alpha Vantage API key <br /> 
+Alpha Vantage<br /> 
 
 # Installation
 1. Clone this repository.
